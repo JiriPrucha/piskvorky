@@ -129,7 +129,7 @@ pygame.init()
 screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 
-turn = 1
+turn = 0
 #0 - player starts 
 #1 - computer starts
 
@@ -152,7 +152,7 @@ while game_over == False:
 
     for event in pygame.event.get():
 
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT:   
                 sys.exit()
 
         if turn == player:

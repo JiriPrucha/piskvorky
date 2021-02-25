@@ -1,5 +1,12 @@
+import turns
+
 newTick = []
 field =  []
+twoInARow = []
+
+positions = []
+
+nextTurn = []
 
 class Board:
     def __init__(self, rankX, rankO, tick):
@@ -16,6 +23,7 @@ class Board:
     def updateX(self, rankX):
         self.rankX = rankX
 
+"""
 field = [[Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0)],
 [Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0)],
 [Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0)],
@@ -32,16 +40,16 @@ field = [[Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board
 [Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0)],
 [Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0),Board(0,0,0)]
 ]
-
+"""
 def createBoard(rowCount):
-    """
     for _ in range(rowCount):
             field.append([])
     for y in range(rowCount):
         for _ in range(rowCount):
             field[y].append(Board(0,0,0))
-"""
-    pass
+    nextTurn.append([150,150])
+
+
 
 def switch(x,y,j):
     if j == 1:
@@ -103,45 +111,94 @@ def eight(x,y):
         return False,x,y
 
 def possibleTurns(x,y,i):
+    numberOfTwo = 0
     neighbors = 0
     if x != len(field)-1 and y != len(field)-1 and field[x+1][y+1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x+1][y+1].updateX(turn(x+1, y+1, 1))
-        field[x+1][y+1].updateO(turn(x+1, y+1, 2)) 
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
+        field[x+1][y+1].updateO(turn(x+1, y+1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if x != len(field)-1 and field[x+1][y].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x+1][y].updateX(turn(x+1, y, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x+1][y].updateO(turn(x+1, y, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if x != len(field)-1 and y != 0 and field[x+1][y-1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x+1][y-1].updateX(turn(x+1, y-1, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x+1][y-1].updateO(turn(x+1, y-1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if y != 0 and field[x][y-1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x][y-1].updateX(turn(x, y-1, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x][y-1].updateO(turn(x, y-1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if x != 0 and y != 0 and field[x-1][y-1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x-1][y-1].updateX(turn(x-1, y-1, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x-1][y-1].updateO(turn(x-1, y-1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if x != 0 and field[x-1][y].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x-1][y].updateX(turn(x-1, y, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x-1][y].updateO(turn(x-1, y, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if x != 0 and y != len(field)-1 and field[x-1][y+1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x-1][y+1].updateX(turn(x-1, y+1, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x-1][y+1].updateO(turn(x-1, y+1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if y != len(field)-1 and field[x][y+1].tick == 0:
+        numberOfTwo = len(twoInARow)
         field[x][y+1].updateX(turn(x, y+1, 1))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,1])
+            numberOfTwo = len(twoInARow)
         field[x][y+1].updateO(turn(x, y+1, 2))
+        if len(twoInARow) > numberOfTwo:
+            twoInARow.append([x,y,2])
     else:
         neighbors += 1
     if neighbors == 8:
@@ -149,6 +206,7 @@ def possibleTurns(x,y,i):
 
 def turn(x, y, k):
     if k == 1 and field[x][y].rankX == 0:
+        positions.append([x,y])
         return pomoc(x,y,k)
     elif k == 2 and field[x][y].rankO == 0:
         return pomoc(x,y,k)
@@ -171,7 +229,8 @@ def pomoc(x,y,k):
             if whatScore == score:
                 count += 1
         score *= count
-
+    if score == 40000:
+        twoInARow.append([x,y])
     return score
          
 def scoreOfTile(number):
@@ -189,7 +248,7 @@ def scoreOfTile(number):
         score = number[1] - number[2]
         score = (score ** number[1])
         if number[0] == 4 and number[1] != 0 and number[2] == 0:
-            score -= 10
+            score += 10
         else:
             score += (number[0] * 2)
         if number[3] != 0:
@@ -199,16 +258,18 @@ def scoreOfTile(number):
 def whatIsThere(k,i,j,promenna,number, numberFinal):
     if promenna == 0:
         if number[0] == 0 and number[1] != 0:
-            number[3] += 3
-            numberFinal[3] += 3
-        elif number[0] == 1 and number[1] != 0 and number[3] > 2:
-            number[3] -= 3
-            numberFinal[3] -= 3
+            number[5] += 1
+        elif number[0] == 1 and number[1] != 0 and number[5] > 1:
+            number[5] -= 1
+            i += 1
         else:
             i += 1
         number[0] += 1
         numberFinal[0] += 1
     elif promenna == k:
+        if number[5] == 1:
+            number[3] +=1
+            numberFinal[3] += 1
         if number[4] == 2 and number[0] == 1 and number[1] == 0 and number[2] == 0:
             number[3] +=1
             numberFinal[3] += 1
@@ -218,8 +279,7 @@ def whatIsThere(k,i,j,promenna,number, numberFinal):
         j += 1
     else:
         if number[0] == 1 and number[1] != 0 and number[3] > 2:
-            number[3] -= 3
-            numberFinal[3] -= 3
+            number[5] -= 1
         else:
             number[2] += 1
             numberFinal[2] += 1
@@ -232,7 +292,7 @@ def choosingPlace(a,b,k,j):
     circle = 0
     nothing = 0
     numberFinal = [0,0,0,0]
-    number = [0,0,0,0,0]
+    number = [0,0,0,0,0,0]
 
     isPossible = True
     isPossible,x,y = switch(a,b,j)
@@ -250,7 +310,7 @@ def choosingPlace(a,b,k,j):
             nothing, cross, number, numberFinal = whatIsThere(k,nothing, cross,field[x][y].tick, number, numberFinal)
             isPossible,x,y = switch(x,y,j)
         j += 4
-        number = [0,0,0,0,0]
+        number = [0,0,0,0,0,0]
         circle += 1
         nothing = 0
         x,y = a,b
@@ -260,7 +320,6 @@ def choosingPlace(a,b,k,j):
                 numberFinal[2] += 1
         else:
             isPossible,x,y = switch(x,y,j)
-
     return numberFinal
 
 def bestTurn():
@@ -269,12 +328,15 @@ def bestTurn():
     maximumX = 0
     maximumO = 0
     game_over = False
+    tryAgain = True
+    cont = 0
 
 
-    for j in range (len(field)):
-        for i in range (len(field)):
-            print("o = ",field[i][j].rankO)
-            print("x = ",field[i][j].rankX)
+    while tryAgain:
+        for coordinates in positions:
+            i,j = coordinates[0],coordinates[1]
+            print(i," o = ",field[i][j].rankO)
+            print(j," x = ",field[i][j].rankX)
             if field[i][j].rankO > maximumO:
                 maximumO = field[i][j].rankO
                 maximumX = field[i][j].rankX
@@ -290,26 +352,51 @@ def bestTurn():
                     x, y = i, j
                     print("max")
 
-    for j in range (len(field)):
-        for i in range (len(field)):
+        for coordinates in positions:
+            i,j = coordinates[0],coordinates[1]
 
-            if field[i][j].rankX > maximumO and field[i][j].rankX > 40000:
+            if field[i][j].rankX > maximumO and (field[i][j].rankX > 40000 or  maximumO < 1000):
                 maximumO = field[i][j].rankX
-                maximumX = field[i][j].rankX
+                maximumX = field[i][j].rankO
                 x, y = i, j
                 print("max")
 
-            field[i][j].rankX, field[i][j].rankO = 0,0
+        """
+        if maximumO == 40000 and cont == 0:
+            cont += 1
+            ifTrue, x, y = turns.ifThreeIsPossible()
+            if ifTrue:
+                nextTurn.pop()
+                nextTurn.append([x, y])
+            else:
+                tryAgain = False
+        else:
+            tryAgain = False
+
+        """
+        tryAgain = False
+    for coordinates in positions:
+        i,j = coordinates[0],coordinates[1]
+        field[i][j].rankX, field[i][j].rankO = 0,0
     print("------------------------------------------------------------")
+    coordinates = []
     return x,y,game_over
 
 def main():
+    twoInARow = []
     game_over = False
     i = 0
     cont = True
     if newTick == []:
         return len(field)//2,len(field)//2,game_over
     else:
+        if nextTurn != [[150,150]]:
+            for box in nextTurn:
+                x, y = box[0], box[1]
+                nextTurn.pop()
+                nextTurn.append([150,150])
+                if field[x][y].tick == 0:
+                    return x, y, False
         while cont:
             lenghtBefore = len(newTick)
             if i == lenghtBefore:

@@ -361,13 +361,10 @@ def bestTurn():
 
     for coordinates in positions:
         i,j = coordinates[0],coordinates[1]
-        print(i," o = ",field[i][j].rankO)
-        print(j," x = ",field[i][j].rankX)
         if field[i][j].rankO > maximumO:
             maximumO = field[i][j].rankO
             maximumX = field[i][j].rankX
             x, y = i, j
-            print("max")
 
             if maximumO == 200000:
                 game_over = True
@@ -376,7 +373,6 @@ def bestTurn():
             if field[i][j].rankX > maximumX:
                 maximumX = field[i][j].rankX
                 x, y = i, j
-                print("max")
 
     for coordinates in positions:
         i,j = coordinates[0],coordinates[1]
@@ -385,7 +381,6 @@ def bestTurn():
             maximumO = field[i][j].rankX
             maximumX = field[i][j].rankO
             x, y = i, j
-            print("max")
 
     if maximumO < 41000 and nextTurn != []:
         box = nextTurn.pop(-1)
@@ -404,7 +399,6 @@ def bestTurn():
     for coordinates in positions:
         i,j = coordinates[0],coordinates[1]
         field[i][j].rankX, field[i][j].rankO = 0,0
-    print("------------------------------------------------------------")
     coordinates = []
     return x,y,game_over
 
